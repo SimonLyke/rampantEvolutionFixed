@@ -18,7 +18,7 @@ data:extend({
 
         {
             type = "bool-setting",
-            name = "rampant-evolution--displayEvolutionMsg",
+            name = "rampant-evolution-fixed--displayEvolutionMsg",
             setting_type = "runtime-global",
             default_value = false,
             order = "l[modifier]-m[unit]",
@@ -27,7 +27,7 @@ data:extend({
 
         {
             type = "bool-setting",
-            name = "rampant-evolution--shortcut-bar",
+            name = "rampant-evolution-fixed--shortcut-bar",
             setting_type = "startup",
             default_value = true,
             order = "a[modifier]-b[unit]",
@@ -36,7 +36,7 @@ data:extend({
 
         {
             type = "bool-setting",
-            name = "rampant-evolution--setMapSettingsToZero",
+            name = "rampant-evolution-fixed--setMapSettingsToZero",
             setting_type = "runtime-global",
             default_value = true,
             order = "l[modifier]-m[unit]",
@@ -45,7 +45,7 @@ data:extend({
 
         {
             type = "int-setting",
-            name = "rampant-evolution--evolutionResolutionLevel",
+            name = "rampant-evolution-fixed--evolutionResolutionLevel",
             setting_type = "runtime-global",
             minimum_value = 0,
             default_value = 0,
@@ -56,7 +56,7 @@ data:extend({
 
         {
             type = "int-setting",
-            name = "rampant-evolution--processingPerTick",
+            name = "rampant-evolution-fixed--processingPerTick",
             setting_type = "runtime-global",
             minimum_value = 1,
             default_value = 5,
@@ -67,7 +67,7 @@ data:extend({
 
         {
             type = "bool-setting",
-            name = "rampant-evolution--toggleResearchEvolutionMultiplier",
+            name = "rampant-evolution-fixed--toggleResearchEvolutionMultiplier",
             setting_type = "runtime-global",
             default_value = false,
             order = "l[modifier]-z[unit]",
@@ -76,7 +76,7 @@ data:extend({
 
         {
             type = "double-setting",
-            name = "rampant-evolution--startResearchMultiplier",
+            name = "rampant-evolution-fixed--startResearchMultiplier",
             setting_type = "runtime-global",
             minimum_value = -10000,
             default_value = 0,
@@ -87,7 +87,7 @@ data:extend({
 
         {
             type = "double-setting",
-            name = "rampant-evolution--endResearchMultiplier",
+            name = "rampant-evolution-fixed--endResearchMultiplier",
             setting_type = "runtime-global",
             minimum_value = -10000,
             default_value = 0,
@@ -98,7 +98,7 @@ data:extend({
 
         {
             type = "double-setting",
-            name = "rampant-evolution--researchMultiplierExponent",
+            name = "rampant-evolution-fixed--researchMultiplierExponent",
             setting_type = "runtime-global",
             minimum_value = -10000,
             default_value = 1,
@@ -109,7 +109,7 @@ data:extend({
 
         {
             type = "bool-setting",
-            name = "rampant-evolution--toggleTickEvolutionMultiplier",
+            name = "rampant-evolution-fixed--toggleTickEvolutionMultiplier",
             setting_type = "runtime-global",
             default_value = false,
             order = "l[modifier]-zz[unit]",
@@ -118,7 +118,7 @@ data:extend({
 
         {
             type = "double-setting",
-            name = "rampant-evolution--startTickMultiplier",
+            name = "rampant-evolution-fixed--startTickMultiplier",
             setting_type = "runtime-global",
             minimum_value = -10000,
             default_value = 0,
@@ -129,7 +129,7 @@ data:extend({
 
         {
             type = "double-setting",
-            name = "rampant-evolution--endTickMultiplier",
+            name = "rampant-evolution-fixed--endTickMultiplier",
             setting_type = "runtime-global",
             minimum_value = -10000,
             default_value = 0,
@@ -140,7 +140,7 @@ data:extend({
 
         {
             type = "double-setting",
-            name = "rampant-evolution--tickMultiplierExponent",
+            name = "rampant-evolution-fixed--tickMultiplierExponent",
             setting_type = "runtime-global",
             minimum_value = -10000,
             default_value = 1,
@@ -151,7 +151,7 @@ data:extend({
 
         {
             type = "int-setting",
-            name = "rampant-evolution--totalTickMultiplier",
+            name = "rampant-evolution-fixed--totalTickMultiplier",
             setting_type = "runtime-global",
             minimum_value = 1,
             default_value = 60 * 40,
@@ -162,7 +162,7 @@ data:extend({
 
         {
             type = "double-setting",
-            name = "rampant-evolution--minimumDevolutionPercentage",
+            name = "rampant-evolution-fixed--minimumDevolutionPercentage",
             setting_type = "runtime-global",
             minimum_value = 0,
             default_value = 0,
@@ -173,7 +173,7 @@ data:extend({
 
         {
             type = "double-setting",
-            name = "rampant-evolution--displayEvolutionMsgInterval",
+            name = "rampant-evolution-fixed--displayEvolutionMsgInterval",
             setting_type = "runtime-global",
             minimum_value = 0.001,
             default_value = 10.0,
@@ -184,7 +184,7 @@ data:extend({
 
         {
             type = "bool-setting",
-            name = "rampant-evolution--recalculateAllEvolution",
+            name = "rampant-evolution-fixed--recalculateAllEvolution",
             setting_type = "runtime-global",
             default_value = true,
             order = "l[modifier]-m[unit]",
@@ -193,7 +193,7 @@ data:extend({
 
         {
             type = "double-setting",
-            name = "rampant-evolution-evolutionPerSpawnerAbsorbed",
+            name = "rampant-evolution-fixed-evolutionPerSpawnerAbsorbed",
             setting_type = "runtime-global",
             minimum_value = -100000,
             maximum_value = 100000,
@@ -204,7 +204,7 @@ data:extend({
 
         {
             type = "double-setting",
-            name = "rampant-evolution-evolutionPerTreeAbsorbed",
+            name = "rampant-evolution-fixed-evolutionPerTreeAbsorbed",
             setting_type = "runtime-global",
             minimum_value = -100000,
             maximum_value = 100000,
@@ -215,7 +215,7 @@ data:extend({
 
         {
             type = "double-setting",
-            name = "rampant-evolution-evolutionPerTreeDied",
+            name = "rampant-evolution-fixed-evolutionPerTreeDied",
             setting_type = "runtime-global",
             minimum_value = -100000,
             maximum_value = 100000,
@@ -226,7 +226,7 @@ data:extend({
 
         {
             type = "double-setting",
-            name = "rampant-evolution-evolutionPerTileAbsorbed",
+            name = "rampant-evolution-fixed-evolutionPerTileAbsorbed",
             setting_type = "runtime-global",
             minimum_value = -100000,
             maximum_value = 100000,
@@ -237,7 +237,7 @@ data:extend({
 
         {
             type = "double-setting",
-            name = "rampant-evolution-evolutionPerSpawnerKilled",
+            name = "rampant-evolution-fixed-evolutionPerSpawnerKilled",
             setting_type = "runtime-global",
             minimum_value = -100000,
             maximum_value = 100000,
@@ -248,7 +248,7 @@ data:extend({
 
         {
             type = "double-setting",
-            name = "rampant-evolution--evolutionPerWormKilled",
+            name = "rampant-evolution-fixed--evolutionPerWormKilled",
             setting_type = "runtime-global",
             minimum_value = -100000,
             maximum_value = 100000,
@@ -259,7 +259,7 @@ data:extend({
 
         {
             type = "double-setting",
-            name = "rampant-evolution-evolutionPerHiveKilled",
+            name = "rampant-evolution-fixed-evolutionPerHiveKilled",
             setting_type = "runtime-global",
             minimum_value = -100000,
             maximum_value = 100000,
@@ -270,7 +270,7 @@ data:extend({
 
         {
             type = "double-setting",
-            name = "rampant-evolution-evolutionPerUnitKilled",
+            name = "rampant-evolution-fixed-evolutionPerUnitKilled",
             setting_type = "runtime-global",
             minimum_value = -100000,
             maximum_value = 100000,
@@ -281,7 +281,7 @@ data:extend({
 
         {
             type = "double-setting",
-            name = "rampant-evolution--evolutionPerTime",
+            name = "rampant-evolution-fixed--evolutionPerTime",
             setting_type = "runtime-global",
             minimum_value = -100000,
             maximum_value = 100000,
@@ -292,7 +292,7 @@ data:extend({
 
         {
             type = "double-setting",
-            name = "rampant-evolution--evolutionPerPollution",
+            name = "rampant-evolution-fixed--evolutionPerPollution",
             setting_type = "runtime-global",
             minimum_value = -100000,
             maximum_value = 100000,
@@ -303,7 +303,7 @@ data:extend({
 
         {
             type = "double-setting",
-            name = "rampant-evolution--evolutionPerLowPlayer",
+            name = "rampant-evolution-fixed--evolutionPerLowPlayer",
             setting_type = "runtime-global",
             minimum_value = -100000,
             maximum_value = 100000,
@@ -314,7 +314,7 @@ data:extend({
 
         {
             type = "double-setting",
-            name = "rampant-evolution--evolutionPerMediumPlayer",
+            name = "rampant-evolution-fixed--evolutionPerMediumPlayer",
             setting_type = "runtime-global",
             minimum_value = -100000,
             maximum_value = 100000,
@@ -325,7 +325,7 @@ data:extend({
 
         {
             type = "double-setting",
-            name = "rampant-evolution--evolutionPerHighPlayer",
+            name = "rampant-evolution-fixed--evolutionPerHighPlayer",
             setting_type = "runtime-global",
             minimum_value = -100000,
             maximum_value = 100000,
@@ -336,7 +336,7 @@ data:extend({
 
         {
             type = "bool-setting",
-            name = "rampant-evolution--researchEvolutionCap",
+            name = "rampant-evolution-fixed--researchEvolutionCap",
             setting_type = "runtime-global",
             default_value = false,
             order = "l[modifier]-oz[unit]",
@@ -345,7 +345,7 @@ data:extend({
 
         {
             type = "bool-setting",
-            name = "rampant-evolution--researchEvolutionCapIncludeUpgrades",
+            name = "rampant-evolution-fixed--researchEvolutionCapIncludeUpgrades",
             setting_type = "runtime-global",
             default_value = true,
             order = "l[modifier]-oz[unit]",
@@ -354,7 +354,7 @@ data:extend({
 
         {
             type = "double-setting",
-            name = "rampant-evolution--technology-automation-science-multiplier",
+            name = "rampant-evolution-fixed--technology-automation-science-multiplier",
             setting_type = "runtime-global",
             minimum_value = 0,
             default_value = 1,
@@ -365,7 +365,7 @@ data:extend({
 
         {
             type = "double-setting",
-            name = "rampant-evolution--technology-logistic-science-multiplier",
+            name = "rampant-evolution-fixed--technology-logistic-science-multiplier",
             setting_type = "runtime-global",
             minimum_value = 0,
             default_value = 1,
@@ -376,7 +376,7 @@ data:extend({
 
         {
             type = "double-setting",
-            name = "rampant-evolution--technology-military-science-multiplier",
+            name = "rampant-evolution-fixed--technology-military-science-multiplier",
             setting_type = "runtime-global",
             minimum_value = 0,
             default_value = 1,
@@ -387,7 +387,7 @@ data:extend({
 
         {
             type = "double-setting",
-            name = "rampant-evolution--technology-chemical-science-multiplier",
+            name = "rampant-evolution-fixed--technology-chemical-science-multiplier",
             setting_type = "runtime-global",
             minimum_value = 0,
             default_value = 1,
@@ -398,7 +398,7 @@ data:extend({
 
         {
             type = "double-setting",
-            name = "rampant-evolution--technology-production-science-multiplier",
+            name = "rampant-evolution-fixed--technology-production-science-multiplier",
             setting_type = "runtime-global",
             minimum_value = 0,
             default_value = 1,
@@ -409,7 +409,7 @@ data:extend({
 
         {
             type = "double-setting",
-            name = "rampant-evolution--technology-utility-science-multiplier",
+            name = "rampant-evolution-fixed--technology-utility-science-multiplier",
             setting_type = "runtime-global",
             minimum_value = 0,
             default_value = 1,
@@ -420,7 +420,7 @@ data:extend({
 
         {
             type = "double-setting",
-            name = "rampant-evolution--technology-space-science-multiplier",
+            name = "rampant-evolution-fixed--technology-space-science-multiplier",
             setting_type = "runtime-global",
             minimum_value = 0,
             default_value = 1,

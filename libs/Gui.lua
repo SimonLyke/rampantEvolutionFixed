@@ -30,6 +30,16 @@ local mAbs = math.abs
 
 local gui = {}
 
+local function get_player_surface_index()
+    local player = game.players[1]
+    return player.surface.index
+end
+
+local function get_player_surface_name()
+    local player = game.players[1]
+    return player.surface.name
+end
+
 function gui.calculateDisplayValue(e, world, evo)
     local totalNegEvo = world.totalNegativeEvolution
     local denominator = (
@@ -55,15 +65,15 @@ end
 function gui.create(player, world)
     local guis = player.gui.screen.children
     for i=1,#guis do
-        if guis[i].name == "rampant-evolution--metrics" then
+        if guis[i].name == "rampant-evolution-fixed--metrics" then
             return guis[i]
         end
     end
     local panel = player.gui.screen.add({
             type="frame",
-            name="rampant-evolution--metrics",
+            name="rampant-evolution-fixed--metrics",
             direction="vertical",
-            caption="Evolution Metrics"
+            caption="Evolution Metrics - " .. get_player_surface_name()
     })
     panel.auto_center = true
     local contentPanel = panel.add({type="frame", name="contentPanel", direction="horizontal"})
@@ -72,207 +82,207 @@ function gui.create(player, world)
     contents.vertical_centering = true
     contents.add({
             type = "label",
-            caption = {"description.rampant-evolution--evolution"},
-            tooltip = {"tooltip.rampant-evolution--evolution"}
+            caption = {"description.rampant-evolution-fixed--evolution"},
+            tooltip = {"tooltip.rampant-evolution-fixed--evolution"}
     })
     contents.add({
             type = "label",
             name = "EvolutionValue",
-            tooltip = {"tooltip.rampant-evolution--evolution"}
+            tooltip = {"tooltip.rampant-evolution-fixed--evolution"}
     })
 
     if world.evolutionPerTileAbsorbed ~= 0 then
         contents.add({
                 type = "label",
-                caption = {"description.rampant-evolution--tile"},
-                tooltip = {"tooltip.rampant-evolution--tile"}
+                caption = {"description.rampant-evolution-fixed--tile"},
+                tooltip = {"tooltip.rampant-evolution-fixed--tile"}
         })
         contents.add({
                 type = "label",
                 name = "TileValue",
-                tooltip = {"tooltip.rampant-evolution--tile"}
+                tooltip = {"tooltip.rampant-evolution-fixed--tile"}
         })
     end
 
     if world.evolutionPerTreeAbsorbed ~= 0 then
         contents.add({
                 type = "label",
-                caption = {"description.rampant-evolution--tree"},
-                tooltip = {"tooltip.rampant-evolution--tree"}
+                caption = {"description.rampant-evolution-fixed--tree"},
+                tooltip = {"tooltip.rampant-evolution-fixed--tree"}
         })
         contents.add({
                 type = "label",
                 name = "TreeValue",
-                tooltip = {"tooltip.rampant-evolution--tree"}
+                tooltip = {"tooltip.rampant-evolution-fixed--tree"}
         })
     end
 
     if world.evolutionPerTreeDied ~= 0 then
         contents.add({
                 type = "label",
-                caption = {"description.rampant-evolution--dyingTree"},
-                tooltip = {"tooltip.rampant-evolution--dyingTree"}
+                caption = {"description.rampant-evolution-fixed--dyingTree"},
+                tooltip = {"tooltip.rampant-evolution-fixed--dyingTree"}
         })
         contents.add({
                 type = "label",
                 name = "DyingTreeValue",
-                tooltip = {"tooltip.rampant-evolution--dyingTree"}
+                tooltip = {"tooltip.rampant-evolution-fixed--dyingTree"}
         })
     end
 
     if world.evolutionPerSpawnerAbsorbed ~= 0 then
         contents.add({
                 type = "label",
-                caption = {"description.rampant-evolution--absorbed"},
-                tooltip = {"tooltip.rampant-evolution--absorbed"}
+                caption = {"description.rampant-evolution-fixed--absorbed"},
+                tooltip = {"tooltip.rampant-evolution-fixed--absorbed"}
         })
         contents.add({
                 type = "label",
                 name = "AbsorbedValue",
-                tooltip = {"tooltip.rampant-evolution--absorbed"}
+                tooltip = {"tooltip.rampant-evolution-fixed--absorbed"}
         })
     end
 
     if world.evolutionPerSpawnerKilled ~= 0 then
         contents.add({
                 type = "label",
-                caption = {"description.rampant-evolution--spawner"},
-                tooltip = {"tooltip.rampant-evolution--spawner"}
+                caption = {"description.rampant-evolution-fixed--spawner"},
+                tooltip = {"tooltip.rampant-evolution-fixed--spawner"}
         })
         contents.add({
                 type = "label",
                 name = "SpawnerValue",
-                tooltip = {"tooltip.rampant-evolution--spawner"}
+                tooltip = {"tooltip.rampant-evolution-fixed--spawner"}
         })
     end
 
     if world.evolutionPerHiveKilled ~= 0 then
         contents.add({
                 type = "label",
-                caption = {"description.rampant-evolution--hive"},
-                tooltip = {"tooltip.rampant-evolution--hive"}
+                caption = {"description.rampant-evolution-fixed--hive"},
+                tooltip = {"tooltip.rampant-evolution-fixed--hive"}
         })
         contents.add({
                 type = "label",
                 name = "HiveValue",
-                tooltip = {"tooltip.rampant-evolution--hive"}
+                tooltip = {"tooltip.rampant-evolution-fixed--hive"}
         })
     end
 
     if world.evolutionPerUnitKilled ~= 0 then
         contents.add({
                 type = "label",
-                caption = {"description.rampant-evolution--unit"},
-                tooltip = {"tooltip.rampant-evolution--unit"}
+                caption = {"description.rampant-evolution-fixed--unit"},
+                tooltip = {"tooltip.rampant-evolution-fixed--unit"}
         })
         contents.add({
                 type = "label",
                 name = "UnitValue",
-                tooltip = {"tooltip.rampant-evolution--unit"}
+                tooltip = {"tooltip.rampant-evolution-fixed--unit"}
         })
     end
 
     if world.evolutionPerWormKilled ~= 0 then
         contents.add({
                 type = "label",
-                caption = {"description.rampant-evolution--worm"},
-                tooltip = {"tooltip.rampant-evolution--worm"}
+                caption = {"description.rampant-evolution-fixed--worm"},
+                tooltip = {"tooltip.rampant-evolution-fixed--worm"}
         })
         contents.add({
                 type = "label",
                 name = "WormValue",
-                tooltip = {"tooltip.rampant-evolution--worm"}
+                tooltip = {"tooltip.rampant-evolution-fixed--worm"}
         })
     end
 
     if world.evolutionPerPollution ~= 0 then
         contents.add({
                 type = "label",
-                caption = {"description.rampant-evolution--totalPollution"},
-                tooltip = {"tooltip.rampant-evolution--totalPollution"}
+                caption = {"description.rampant-evolution-fixed--totalPollution"},
+                tooltip = {"tooltip.rampant-evolution-fixed--totalPollution"}
         })
         contents.add({
                 type = "label",
                 name = "TotalPollutionValue",
-                tooltip = {"tooltip.rampant-evolution--totalPollution"}
+                tooltip = {"tooltip.rampant-evolution-fixed--totalPollution"}
         })
     end
 
     if world.evolutionPerTime ~= 0 then
         contents.add({
                 type = "label",
-                caption = {"description.rampant-evolution--time"},
-                tooltip = {"tooltip.rampant-evolution--time"}
+                caption = {"description.rampant-evolution-fixed--time"},
+                tooltip = {"tooltip.rampant-evolution-fixed--time"}
         })
         contents.add({
                 type = "label",
                 name = "TimeValue",
-                tooltip = {"tooltip.rampant-evolution--time"}
+                tooltip = {"tooltip.rampant-evolution-fixed--time"}
         })
     end
 
     if world.evolutionPerLowPlayer ~= 0 then
         contents.add({
                 type = "label",
-                caption = {"description.rampant-evolution--lowPlayer"},
-                tooltip = {"tooltip.rampant-evolution--lowPlayer"}
+                caption = {"description.rampant-evolution-fixed--lowPlayer"},
+                tooltip = {"tooltip.rampant-evolution-fixed--lowPlayer"}
         })
         contents.add({
                 type = "label",
                 name = "LowPlayer",
-                tooltip = {"tooltip.rampant-evolution--lowPlayer"}
+                tooltip = {"tooltip.rampant-evolution-fixed--lowPlayer"}
         })
     end
 
     if world.evolutionPerMediumPlayer ~= 0 then
         contents.add({
                 type = "label",
-                caption = {"description.rampant-evolution--mediumPlayer"},
-                tooltip = {"tooltip.rampant-evolution--mediumPlayer"}
+                caption = {"description.rampant-evolution-fixed--mediumPlayer"},
+                tooltip = {"tooltip.rampant-evolution-fixed--mediumPlayer"}
         })
         contents.add({
                 type = "label",
                 name = "MediumPlayer",
-                tooltip = {"tooltip.rampant-evolution--mediumPlayer"}
+                tooltip = {"tooltip.rampant-evolution-fixed--mediumPlayer"}
         })
     end
 
     if world.evolutionPerHighPlayer ~= 0 then
         contents.add({
                 type = "label",
-                caption = {"description.rampant-evolution--highPlayer"},
-                tooltip = {"tooltip.rampant-evolution--highPlayer"}
+                caption = {"description.rampant-evolution-fixed--highPlayer"},
+                tooltip = {"tooltip.rampant-evolution-fixed--highPlayer"}
         })
         contents.add({
                 type = "label",
                 name = "HighPlayer",
-                tooltip = {"tooltip.rampant-evolution--highPlayer"}
+                tooltip = {"tooltip.rampant-evolution-fixed--highPlayer"}
         })
     end
 
     if world.toggleTickEvolutionMultiplier or world.toggleResearchEvolutionMultiplier then
         contents.add({
                 type = "label",
-                caption = {"description.rampant-evolution--evolutionMultiplier"},
-                tooltip = {"tooltip.rampant-evolution--evolutionMultiplier"}
+                caption = {"description.rampant-evolution-fixed--evolutionMultiplier"},
+                tooltip = {"tooltip.rampant-evolution-fixed--evolutionMultiplier"}
         })
         contents.add({
                 type = "label",
                 name = "EvolutionMultiplier",
-                tooltip = {"tooltip.rampant-evolution--evolutionMultiplier"}
+                tooltip = {"tooltip.rampant-evolution-fixed--evolutionMultiplier"}
         })
     end
 
     if world.minimumDevolutionPercentage ~= 0 then
         contents.add({
                 type = "label",
-                caption = {"description.rampant-evolution--minimumEvolution"},
-                tooltip = {"tooltip.rampant-evolution--minimumEvolution"}
+                caption = {"description.rampant-evolution-fixed--minimumEvolution"},
+                tooltip = {"tooltip.rampant-evolution-fixed--minimumEvolution"}
         })
         contents.add({
                 type = "label",
                 name = "MinimumEvolutionValue",
-                tooltip = {"tooltip.rampant-evolution--minimumEvolution"}
+                tooltip = {"tooltip.rampant-evolution-fixed--minimumEvolution"}
         })
     end
 
@@ -280,7 +290,7 @@ function gui.create(player, world)
         contents.add({
                 type = "label",
                 name = "ResearchEvolutionCapLabel",
-                caption = {"description.rampant-evolution--researchEvolutionCap"}
+                caption = {"description.rampant-evolution-fixed--researchEvolutionCap"}
         })
         contents.add({
                 type = "label",
@@ -290,35 +300,35 @@ function gui.create(player, world)
 
     contents.add({
             type = "label",
-            caption = {"description.rampant-evolution--shortChange"},
-            tooltip = {"tooltip.rampant-evolution--shortChange"}
+            caption = {"description.rampant-evolution-fixed--shortChange"},
+            tooltip = {"tooltip.rampant-evolution-fixed--shortChange"}
     })
     contents.add({
             type = "label",
             name = "ShortChangeValue",
-            tooltip = {"tooltip.rampant-evolution--shortChange"}
+            tooltip = {"tooltip.rampant-evolution-fixed--shortChange"}
     })
 
     contents.add({
             type = "label",
-            caption = {"description.rampant-evolution--longChange"},
-            tooltip = {"tooltip.rampant-evolution--longChange"}
+            caption = {"description.rampant-evolution-fixed--longChange"},
+            tooltip = {"tooltip.rampant-evolution-fixed--longChange"}
     })
     contents.add({
             type = "label",
             name = "LongChangeValue",
-            tooltip = {"tooltip.rampant-evolution--longChange"}
+            tooltip = {"tooltip.rampant-evolution-fixed--longChange"}
     })
 
     contents.add({
             type = "label",
-            caption = {"description.rampant-evolution--longLongChange"},
-            tooltip = {"tooltip.rampant-evolution--longLongChange"}
+            caption = {"description.rampant-evolution-fixed--longLongChange"},
+            tooltip = {"tooltip.rampant-evolution-fixed--longLongChange"}
     })
     contents.add({
             type = "label",
             name = "LongLongChangeValue",
-            tooltip = {"tooltip.rampant-evolution--longLongChange"}
+            tooltip = {"tooltip.rampant-evolution-fixed--longLongChange"}
     })
 
 
@@ -347,7 +357,7 @@ function gui.update(world, playerId, tick)
         local enemy = game.forces.enemy
         local contentTable = guiPanel.contentPanel.contentTable
         local stats = world.stats
-        local enemyEvo = enemy.evolution_factor
+        local enemyEvo = enemy.get_evolution_factor(get_player_surface_index())
         if contentTable.EvolutionValue then
             contentTable.EvolutionValue.caption =
                 tostring(gui.roundTo(enemyEvo*100,0.001)).."%"
@@ -431,7 +441,7 @@ function gui.update(world, playerId, tick)
         if contentTable.ResearchEvolutionCap then
             contentTable.ResearchEvolutionCap.caption =
                 tostring(gui.roundTo(stats["researchEvolutionCap"]*100, 0.001)).."%"
-            local tooltip = {"tooltip.rampant-evolution--researchEvolutionCap"}
+            local tooltip = {"tooltip.rampant-evolution-fixed--researchEvolutionCap"}
             for i=1,7 do
                 tooltip[#tooltip+1] = gui.roundTo(world.researchCurrent[i]*100, 0.001) or 0
                 tooltip[#tooltip+1] = gui.roundTo(world.researchTotals[i]*100, 0.001)

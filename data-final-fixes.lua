@@ -16,22 +16,17 @@
 
 local presents = data.raw['map-gen-presets'].default
 
-if settings.startup["rampant-evolution--shortcut-bar"].value then
+if settings.startup["rampant-evolution-fixed--shortcut-bar"].value then
     data:extend({
             {
                 type = "shortcut",
-                name = "rampant-evolution--info",
+                name = "rampant-evolution-fixed--info",
                 action = "lua",
-                localised_name = {"controls.rampant-evolution--toggle_evolution_info"},
+                localised_name = {"controls.rampant-evolution-fixed--toggle_evolution_info"},
                 toggleable = true,
-                icon =
-                    {
-                        filename = "__core__/graphics/icons/alerts/warning-icon.png",
-                        priority = "extra-high-no-scale",
-                        scale = 0.25,
-                        size = 64,
-                        flags = {"icon"}
-                    }
+                small_icon = "__core__/graphics/icons/alerts/warning-icon.png",
+                icon = "__core__/graphics/icons/alerts/warning-icon.png",
+                icon_size = 64,
             }
     })
 end

@@ -100,6 +100,34 @@ local world
 
 -- module code
 
+local function get_evolution_surface()
+    -- return cached surface if valid
+    if storage.evolution_surface and storage.evolution_surface.valid then
+        return storage.evolution_surface
+    end
+
+    -- first connected players surface
+    if game.connected_players and #game.connected_players > 0 then
+        local player = game.connected_players[1]
+        if player and player.valid and player.surface then
+            storage.evolution_surface = player.surface
+            return storage.evolution_surface
+        end
+    end
+
+    -- if no player exists, just set the first valid surface
+    for _, surface in pairs(game.surfaces) do
+        if surface and surface.valid then
+            storage.evolution_surface = surface
+            return storage.evolution_surface
+        end
+    end
+
+    -- yeah this 'should' not happen lol
+    storage.evolution_surface = game.surfaces.nauvis
+    return storage.evolution_surface
+end
+
 local function linearInterpolation(percent, min, max)
     return ((max - min) * percent) + min
 end
@@ -109,7 +137,7 @@ local function variableInterpolation(percent, min, max, exponent)
 end
 
 local function onStatsGrabPollution()
-    local pollutionStats = game.pollution_statistics
+    local pollutionStats = game.get_pollution_statistics(get_evolution_surface().index)
     local counts = pollutionStats.output_counts
 
     for name,count in pairs(counts) do
@@ -130,7 +158,7 @@ end
 
 local function onStatsGrabTotalPollution()
     if world.evolutionPerPollution ~= 0 then
-        local pollutionStats = game.pollution_statistics
+        local pollutionStats = game.get_pollution_statistics(get_evolution_surface().index)
         local counts = pollutionStats.input_counts
 
         for name,count in pairs(counts) do
@@ -151,7 +179,7 @@ local function onStatsGrabTotalPollution()
 end
 
 local function onStatsGrabKill()
-    local killStats = game.forces.enemy.kill_count_statistics
+    local killStats = game.forces.enemy.get_kill_count_statistics(get_evolution_surface().index)
 
     local counts = killStats.output_counts
     for name,count in pairs(counts) do
@@ -226,43 +254,51 @@ end
 
 local function onModSettingsChange(event)
 
-    if event and (string.sub(event.setting, 1, #"rampant-evolution") ~= "rampant-evolution") then
+    if event and (string.sub(event.setting, 1, #"rampant-evolution-fixed") ~= "rampant-evolution-fixed") then
         return false
     end
 
-    world.processingPerTick = settings.global["rampant-evolution--processingPerTick"].value
+    world.processingPerTick = settings.global["rampant-evolution-fixed--processingPerTick"].value
 
-    world.evolutionPerSpawnerAbsorbed = settings.global["rampant-evolution-evolutionPerSpawnerAbsorbed"].value * SETTINGS_TO_PERCENT
-    world.evolutionPerTreeAbsorbed = settings.global["rampant-evolution-evolutionPerTreeAbsorbed"].value * SETTINGS_TO_PERCENT
-    world.evolutionPerTreeDied = settings.global["rampant-evolution-evolutionPerTreeDied"].value * SETTINGS_TO_PERCENT
-    world.evolutionPerTileAbsorbed = settings.global["rampant-evolution-evolutionPerTileAbsorbed"].value * SETTINGS_TO_PERCENT
-    world.evolutionPerSpawnerKilled = settings.global["rampant-evolution-evolutionPerSpawnerKilled"].value * SETTINGS_TO_PERCENT
-    world.evolutionPerUnitKilled = settings.global["rampant-evolution-evolutionPerUnitKilled"].value * SETTINGS_TO_PERCENT
-    world.evolutionPerHiveKilled = settings.global["rampant-evolution-evolutionPerHiveKilled"].value * SETTINGS_TO_PERCENT
-    world.evolutionPerWormKilled = settings.global["rampant-evolution--evolutionPerWormKilled"].value * SETTINGS_TO_PERCENT
+    world.evolutionPerSpawnerAbsorbed = settings.global["rampant-evolution-fixed-evolutionPerSpawnerAbsorbed"].value * SETTINGS_TO_PERCENT
+    world.evolutionPerTreeAbsorbed = settings.global["rampant-evolution-fixed-evolutionPerTreeAbsorbed"].value * SETTINGS_TO_PERCENT
+    world.evolutionPerTreeDied = settings.global["rampant-evolution-fixed-evolutionPerTreeDied"].value * SETTINGS_TO_PERCENT
+    world.evolutionPerTileAbsorbed = settings.global["rampant-evolution-fixed-evolutionPerTileAbsorbed"].value * SETTINGS_TO_PERCENT
+    world.evolutionPerSpawnerKilled = settings.global["rampant-evolution-fixed-evolutionPerSpawnerKilled"].value * SETTINGS_TO_PERCENT
+    world.evolutionPerUnitKilled = settings.global["rampant-evolution-fixed-evolutionPerUnitKilled"].value * SETTINGS_TO_PERCENT
+    world.evolutionPerHiveKilled = settings.global["rampant-evolution-fixed-evolutionPerHiveKilled"].value * SETTINGS_TO_PERCENT
+    world.evolutionPerWormKilled = settings.global["rampant-evolution-fixed--evolutionPerWormKilled"].value * SETTINGS_TO_PERCENT
 
-    world.evolutionPerTime = settings.global["rampant-evolution--evolutionPerTime"].value * SETTINGS_TO_PERCENT
-    world.evolutionPerPollution = settings.global["rampant-evolution--evolutionPerPollution"].value * SETTINGS_TO_PERCENT
+    world.evolutionPerTime = settings.global["rampant-evolution-fixed--evolutionPerTime"].value * SETTINGS_TO_PERCENT
+    world.evolutionPerPollution = settings.global["rampant-evolution-fixed--evolutionPerPollution"].value * SETTINGS_TO_PERCENT
 
-    world.displayEvolutionMsg = settings.global["rampant-evolution--displayEvolutionMsg"].value
-    world.displayEvolutionMsgInterval = math.ceil(settings.global["rampant-evolution--displayEvolutionMsgInterval"].value * (60 * 60))
+    world.displayEvolutionMsg = settings.global["rampant-evolution-fixed--displayEvolutionMsg"].value
+    world.displayEvolutionMsgInterval = math.ceil(settings.global["rampant-evolution-fixed--displayEvolutionMsgInterval"].value * (60 * 60))
 
-    world.minimumDevolutionPercentage = settings.global["rampant-evolution--minimumDevolutionPercentage"].value
+    world.minimumDevolutionPercentage = settings.global["rampant-evolution-fixed--minimumDevolutionPercentage"].value
 
-    world.evolutionResolutionLevel = settings.global["rampant-evolution--evolutionResolutionLevel"].value
+    world.evolutionResolutionLevel = settings.global["rampant-evolution-fixed--evolutionResolutionLevel"].value
 
     world.spawnerLookup = {}
     world.hiveLookup = {}
     world.wormLookup = {}
     world.unitLookup = {}
 
-    if settings.global["rampant-evolution--recalculateAllEvolution"].value then
+    if settings.global["rampant-evolution-fixed--recalculateAllEvolution"].value then
         reset()
-        game.forces.enemy.evolution_factor = 0
-        game.print({"description.rampant-evolution--refreshingEvolution"})
+        game.forces.enemy.set_evolution_factor(0, get_evolution_surface().index)
+        game.print({"description.rampant-evolution-fixed--refreshingEvolution"})
     end
 
-    for entityName, entityPrototype in pairs(game.entity_prototypes) do
+    local entity_filters = {
+        { filter = "type", type = "unit-spawner"},
+        { filter = "type", type = "turret"},
+        { filter = "type", type = "unit"}
+    }
+
+    local entities = prototypes.get_entity_filtered(entity_filters)
+
+    for entityName, entityPrototype in pairs(entities) do
         if (entityPrototype.type == "unit-spawner") and sFind(entityName, "-spawner") then
             world.spawnerLookup[entityName] = 1
         elseif (entityPrototype.type == "unit-spawner") and sFind(entityName, "-hive") then
@@ -274,19 +310,19 @@ local function onModSettingsChange(event)
         end
     end
 
-    world.enabledResearchEvolutionCap = settings.global["rampant-evolution--researchEvolutionCap"].value
+    world.enabledResearchEvolutionCap = settings.global["rampant-evolution-fixed--researchEvolutionCap"].value
     world.researchLookup = {}
     world.researchTotals = {}
     world.researchCurrent = {}
 
     local sciencePackWeightLookup = {
-        [1] = settings.global["rampant-evolution--technology-automation-science-multiplier"].value,
-        [2] = settings.global["rampant-evolution--technology-logistic-science-multiplier"].value,
-        [3] = settings.global["rampant-evolution--technology-military-science-multiplier"].value,
-        [4] = settings.global["rampant-evolution--technology-chemical-science-multiplier"].value,
-        [5] = settings.global["rampant-evolution--technology-production-science-multiplier"].value,
-        [6] = settings.global["rampant-evolution--technology-utility-science-multiplier"].value,
-        [7] = settings.global["rampant-evolution--technology-space-science-multiplier"].value
+        [1] = settings.global["rampant-evolution-fixed--technology-automation-science-multiplier"].value,
+        [2] = settings.global["rampant-evolution-fixed--technology-logistic-science-multiplier"].value,
+        [3] = settings.global["rampant-evolution-fixed--technology-military-science-multiplier"].value,
+        [4] = settings.global["rampant-evolution-fixed--technology-chemical-science-multiplier"].value,
+        [5] = settings.global["rampant-evolution-fixed--technology-production-science-multiplier"].value,
+        [6] = settings.global["rampant-evolution-fixed--technology-utility-science-multiplier"].value,
+        [7] = settings.global["rampant-evolution-fixed--technology-space-science-multiplier"].value
     }
     local sciencePackOrder = {
         "automation-science-pack",
@@ -305,9 +341,9 @@ local function onModSettingsChange(event)
     end
 
     local totalTechnology = 0
-    local includeUpgrades = settings.global["rampant-evolution--researchEvolutionCapIncludeUpgrades"].value
+    local includeUpgrades = settings.global["rampant-evolution-fixed--researchEvolutionCapIncludeUpgrades"].value
 
-    for technologyName, technologyPrototype in pairs(game.technology_prototypes) do
+    for technologyName, technologyPrototype in pairs(prototypes.get_technology_filtered({})) do
         local highestOrder = -1
 
         if not technologyPrototype.research_unit_count_formula
@@ -356,15 +392,15 @@ local function onModSettingsChange(event)
         world.stats["researchEvolutionCap"] = 0.9999999999999
     end
 
-    world.toggleResearchEvolutionMultiplier = settings.global["rampant-evolution--toggleResearchEvolutionMultiplier"].value
-    world.startResearchEvolutionMultiplier = settings.global["rampant-evolution--startResearchMultiplier"].value
-    world.endResearchEvolutionMultiplier = settings.global["rampant-evolution--endResearchMultiplier"].value
-    world.researchMultiplierExponent = settings.global["rampant-evolution--researchMultiplierExponent"].value
+    world.toggleResearchEvolutionMultiplier = settings.global["rampant-evolution-fixed--toggleResearchEvolutionMultiplier"].value
+    world.startResearchEvolutionMultiplier = settings.global["rampant-evolution-fixed--startResearchMultiplier"].value
+    world.endResearchEvolutionMultiplier = settings.global["rampant-evolution-fixed--endResearchMultiplier"].value
+    world.researchMultiplierExponent = settings.global["rampant-evolution-fixed--researchMultiplierExponent"].value
 
-    world.toggleTickEvolutionMultiplier = settings.global["rampant-evolution--toggleTickEvolutionMultiplier"].value
-    world.startTickEvolutionMultiplier = settings.global["rampant-evolution--startTickMultiplier"].value
-    world.endTickEvolutionMultiplier = settings.global["rampant-evolution--endTickMultiplier"].value
-    world.tickMultiplierExponent = settings.global["rampant-evolution--tickMultiplierExponent"].value
+    world.toggleTickEvolutionMultiplier = settings.global["rampant-evolution-fixed--toggleTickEvolutionMultiplier"].value
+    world.startTickEvolutionMultiplier = settings.global["rampant-evolution-fixed--startTickMultiplier"].value
+    world.endTickEvolutionMultiplier = settings.global["rampant-evolution-fixed--endTickMultiplier"].value
+    world.tickMultiplierExponent = settings.global["rampant-evolution-fixed--tickMultiplierExponent"].value
 
     if world.toggleResearchEvolutionMultiplier then
         world.researchEvolutionMultiplier = variableInterpolation(
@@ -377,11 +413,11 @@ local function onModSettingsChange(event)
         world.stats.evolutionMultiplier = world.researchEvolutionMultiplier + world.tickEvolutionMultiplier
     end
 
-    world.totalTicksAccruable = settings.global["rampant-evolution--totalTickMultiplier"].value * (60 * 60)
+    world.totalTicksAccruable = settings.global["rampant-evolution-fixed--totalTickMultiplier"].value * (60 * 60)
 
-    world.evolutionPerLowPlayer = settings.global["rampant-evolution--evolutionPerLowPlayer"].value * SETTINGS_TO_PERCENT
-    world.evolutionPerMediumPlayer = settings.global["rampant-evolution--evolutionPerMediumPlayer"].value * SETTINGS_TO_PERCENT
-    world.evolutionPerHighPlayer = settings.global["rampant-evolution--evolutionPerHighPlayer"].value * SETTINGS_TO_PERCENT
+    world.evolutionPerLowPlayer = settings.global["rampant-evolution-fixed--evolutionPerLowPlayer"].value * SETTINGS_TO_PERCENT
+    world.evolutionPerMediumPlayer = settings.global["rampant-evolution-fixed--evolutionPerMediumPlayer"].value * SETTINGS_TO_PERCENT
+    world.evolutionPerHighPlayer = settings.global["rampant-evolution-fixed--evolutionPerHighPlayer"].value * SETTINGS_TO_PERCENT
 
     local structureTypeLookup = {}
     for _, structure in pairs(LOW_VALUE_PLAYER_STRUCTURES) do
@@ -395,14 +431,14 @@ local function onModSettingsChange(event)
     end
 
     world.playerStructureLookup = {}
-    for entityName, entityPrototype in pairs(game.entity_prototypes) do
+    for entityName, entityPrototype in pairs(prototypes.get_entity_filtered({})) do
         local structureType = structureTypeLookup[entityPrototype.type]
         if structureType then
             world.playerStructureLookup[entityName] = structureType
         end
     end
 
-    if settings.global["rampant-evolution--setMapSettingsToZero"].value then
+    if settings.global["rampant-evolution-fixed--setMapSettingsToZero"].value then
         game.map_settings.enemy_evolution.enabled = false
     else
         game.map_settings.enemy_evolution.enabled = true
@@ -416,7 +452,7 @@ local function onModSettingsChange(event)
     onStatsGrabKill()
     onStatsGrabTotalPollution()
 
-    if not settings.global["rampant-evolution--recalculateAllEvolution"].value then
+    if not settings.global["rampant-evolution-fixed--recalculateAllEvolution"].value then
         world.killDeltasIterator = nil
         world.pollutionDeltasIterator = nil
         world.killDeltas = {}
@@ -450,7 +486,7 @@ local function onConfigChanged()
 
         onModSettingsChange()
 
-        game.print("Rampant Evolution - Version 1.6.4")
+        game.print("Rampant Evolution - Version 1.7.1")
     end
 end
 
@@ -624,10 +660,10 @@ end
 local function printEvolutionMsg()
     local enemy = game.forces.enemy
     local stats = world.stats
-    local enemyEvo = enemy.evolution_factor
+    local enemyEvo = enemy.get_evolution_factor(get_evolution_surface().index)
     game.print({
-            "description.rampant-evolution--displayEvolutionMsg",
-            roundTo(enemyEvo*100,0.001),
+            "description.rampant-evolution-fixed--displayEvolutionMsg",
+            "surface: " .. get_evolution_surface().name .. " - " .. tostring(roundTo(enemyEvo*100,0.001)),
             roundTo(calculateDisplayValue(stats["tile"], world, enemyEvo)*100, 0.001),
             roundTo(calculateDisplayValue(stats["tree"], world, enemyEvo)*100, 0.001),
             roundTo(calculateDisplayValue(stats["dyingTree"], world, enemyEvo)*100, 0.001),
@@ -673,11 +709,11 @@ local function onProcessingWrapper(event)
         )
     end
 
-    local evo = enemy.evolution_factor
+    local evo = enemy.get_evolution_factor(get_evolution_surface().index)
     for _ = 1, world.processingPerTick do
         evo = processing(resolutionLevel, evo)
     end
-    enemy.evolution_factor = evo
+    enemy.set_evolution_factor(evo, get_evolution_surface().index)
 
     if (tick % 60) == 0 then
         world.killDeltas["time"] = (world.killDeltas["time"] or 0) + 1
@@ -715,19 +751,20 @@ local function onProcessingWrapper(event)
 end
 
 local function onInit()
-    global.world = {}
+    get_evolution_surface()
 
-    world = global.world
+    storage.world = {}
+    world = storage.world
 
     onConfigChanged()
 end
 
 local function onLoad()
-    world = global.world
+    world = storage.world
 end
 
 local function onLuaShortcut(event)
-    if event.prototype_name == "rampant-evolution--info" then
+    if event.prototype_name == "rampant-evolution-fixed--info" then
         local playerIndex = event.player_index
         local guiPanel = world.playerGuiOpen[playerIndex]
         if not guiPanel then
